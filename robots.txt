@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# 搜索引擎爬虫友好设置
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: 360Spider
+Allow: /
+
+User-agent: Yisouspider
+Allow: /
+
+# Sitemap 位置
+Sitemap: https://integration-platform.cn/sitemap.xml
