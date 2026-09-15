@@ -65,9 +65,39 @@
 - 支持 `prefers-reduced-motion` 减少动画
 
 ## 构建与运行
-- **开发**: `coze dev`（自动启动 python http.server）
+- **开发/部署**: `coze dev` / `coze start` 自动启动 Node Express 服务
 - **端口**: 通过 `${DEPLOY_RUN_PORT}` 环境变量读取
-- **无构建步骤**: 纯静态 HTML，直接部署
+- **后端服务**: `server.js`（Express + Nodemailer），托管静态页面 + `/api/contact` 邮件接口
+- **邮件服务环境变量**（必须配置才能真实发送邮件）：
+  - `SMTP_USER` = 发件邮箱（163 邮箱）
+  - `SMTP_PASS` = 163 邮箱 SMTP **授权码**（非登录密码，在 163 设置 → POP3/SMTP/IMAP 中开启获取）
+  - `SMTP_HOST`（可选，默认 `smtp.163.com`）
+  - `SMTP_PORT`（可选，默认 `465`，SSL）
+  - 未配置时接口友好降级，返回 `delivered: false`，前端显示成功但邮件未真实发出
+- **防刷**: 每 IP 每分钟最多 5 次 `/api/contact` 提交
+
+## API 接口
+| 接口 | 方法 | 作用 |
+|------|------|------|
+| `/api/contact` | POST | 预约演示表单提交 → 自动发送邮件到 `shanenservice@163.com` |
+
+### /api/contact 请求体
+```json
+{
+  "company": "公司名称",
+  "email": "邮箱",
+  "phone": "手机号（选填）",
+  "scale": "企业规模（选填）",
+  "message": "需求描述（选填）"
+}
+```
+
+### 响应
+```json
+{ "success": true, "delivered": true, "message": "..." }
+```
+- `success`: 请求是否通过校验
+- `delivered`: 邮件是否真实发送成功（依赖 SMTP 配置）
 
 ## 修改指南
 - 修改文案：直接在对应 section 内修改文字
