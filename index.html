@@ -1326,15 +1326,27 @@
     </div>
     <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-5 leading-[1.1]">把跨系统数据这件事，<br/>交给一个被设计过的中台。</h2>
     <p class="text-white/85 max-w-2xl mx-auto leading-relaxed">留下你的联系方式，30 分钟内我们的工程师会和你对接；如果你已经在用，写邮件到 <a href="mailto:shanenservice@163.com" class="font-mono text-white underline-offset-4 hover:underline">shanenservice@163.com</a>。</p>
-    <form id="ctaForm" class="mt-9 max-w-xl mx-auto flex flex-col sm:flex-row gap-3">
-      <input type="email" id="ctaEmail" required placeholder="your.email@company.com" class="flex-1 px-4 py-3 rounded-md text-ink-900 placeholder-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300" />
-      <button id="ctaSubmit" type="submit" class="px-5 py-3 rounded-md bg-ink-900 text-white font-medium hover:bg-ink-700 transition-colors whitespace-nowrap shadow-lg shadow-ink-900/30">预约演示</button>
+    <form id="ctaForm" class="mt-9 max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <input type="text" id="ctaCompany" required placeholder="公司名称" class="sm:col-span-1 px-4 py-3 rounded-md text-ink-900 placeholder-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300" />
+      <input type="email" id="ctaEmail" required placeholder="工作邮箱" class="sm:col-span-1 px-4 py-3 rounded-md text-ink-900 placeholder-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300" />
+      <input type="tel" id="ctaPhone" placeholder="手机号（选填）" class="sm:col-span-1 px-4 py-3 rounded-md text-ink-900 placeholder-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300" />
+      <select id="ctaScale" class="sm:col-span-1 px-4 py-3 rounded-md text-ink-900 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300">
+        <option value="">企业规模（选填）</option>
+        <option>50 人以下</option>
+        <option>50 - 200 人</option>
+        <option>200 - 1000 人</option>
+        <option>1000 - 5000 人</option>
+        <option>5000 人以上</option>
+      </select>
+      <textarea id="ctaMsg" rows="2" placeholder="简单描述您的集成需求（选填）" class="sm:col-span-2 px-4 py-3 rounded-md text-ink-900 placeholder-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300 resize-none"></textarea>
+      <button id="ctaSubmit" type="submit" class="sm:col-span-2 px-5 py-3 rounded-md bg-ink-900 text-white font-medium hover:bg-ink-700 transition-colors whitespace-nowrap shadow-lg shadow-ink-900/30">预约演示</button>
     </form>
     <div id="ctaSuccess" class="mt-6 hidden text-center">
       <div class="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-4 py-2 text-sm">
         <svg class="w-4 h-4 text-emerald-300" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
-        <span>已收到您的预约，我们的工程师会在 30 分钟内与您联系。</span>
+        <span>已生成预约邮件，请在邮件客户端中点击「发送」完成预约</span>
       </div>
+      <p class="mt-3 text-xs text-white/70">邮件将发送至 shanenservice@163.com，我们的工程师会在 30 分钟内与您联系</p>
     </div>
     <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-white/75">
       <span>✓ 不绑年付</span>
@@ -1655,20 +1667,40 @@
     });
   }
 
-  // ===== 预约演示表单 =====
+  // ===== 预约演示表单（mailto 方式）=====
   var ctaForm = document.getElementById('ctaForm');
   var ctaSuccess = document.getElementById('ctaSuccess');
   if (ctaForm) {
     ctaForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      var company = document.getElementById('ctaCompany').value.trim();
       var email = document.getElementById('ctaEmail').value.trim();
-      if (!email) return;
-      // 保存到 localStorage（纯前端示例，真实环境应提交到后端）
-      var leads = [];
-      try { leads = JSON.parse(localStorage.getItem('cta_leads') || '[]'); } catch (e) {}
-      leads.push({ email: email, time: new Date().toISOString() });
-      localStorage.setItem('cta_leads', JSON.stringify(leads));
+      var phone = document.getElementById('ctaPhone').value.trim();
+      var scale = document.getElementById('ctaScale').value;
+      var msg = document.getElementById('ctaMsg').value.trim();
+      if (!company || !email) return;
 
+      // 构造邮件内容
+      var subject = encodeURIComponent('[预约演示] 集成中台 - ' + company);
+      var body = encodeURIComponent(
+        '您好，\n\n' +
+        '我想预约集成中台的产品演示，信息如下：\n\n' +
+        '■ 公司名称：' + company + '\n' +
+        '■ 联系人邮箱：' + email + '\n' +
+        (phone ? '■ 联系电话：' + phone + '\n' : '') +
+        (scale ? '■ 企业规模：' + scale + '\n' : '') +
+        (msg ? '■ 需求描述：' + msg + '\n' : '') +
+        '\n' +
+        '期待回复，谢谢！\n' +
+        '--\n' +
+        '通过集成中台官网提交'
+      );
+      var mailto = 'mailto:shanenservice@163.com?subject=' + subject + '&body=' + body;
+
+      // 打开邮件客户端
+      window.location.href = mailto;
+
+      // 显示成功提示
       ctaForm.classList.add('hidden');
       ctaSuccess.classList.remove('hidden');
       ctaSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
