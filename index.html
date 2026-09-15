@@ -1,33 +1,1543 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="扣子编程，你的 AI 开发伙伴已就位" />
-    <title>扣子编程 - AI 开发伙伴</title>
-    <link rel="stylesheet" href="/styles/main.css" />
-  </head>
-  <body>
-    <div id="app">
-      <main class="main-wrapper">
-        <div class="content-container">
-          <img
-            src="https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze-coding/icon/coze-coding.gif"
-            alt="扣子编程 Logo"
-            class="logo-image"
-          />
-          <div>
-            <div class="text-container">
-              <h1 class="heading">
-                应用开发中
-              </h1>
-              <p class="description">
-                请稍后，页面即将呈现
-              </p>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>集成中台 IntegrationPlatform · 让数据在系统间自由流动</title>
+<meta name="description" content="企业级数据集成中台：统一管理多系统间的数据同步、接口集成与流程编排。28+ 种连接器，稳健调度、全链路可观测、字段级审计与版本回滚。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232563eb'/%3E%3Cpath d='M9 16h14M19 11l5 5-5 5' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='8' cy='16' r='2' fill='%2306b6d4'/%3E%3Ccircle cx='24' cy='16' r='2' fill='%2310b981'/%3E%3C/svg%3E" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'system-ui', 'sans-serif'],
+          mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+        },
+        colors: {
+          ink: {
+            900: '#0b1220',
+            800: '#0f172a',
+            700: '#111827',
+            600: '#1e293b',
+          },
+        },
+        animation: {
+          'flow-x': 'flowX 6s linear infinite',
+          'pulse-slow': 'pulse 3s cubic-bezier(0.4,0,0.6,1) infinite',
+          'ticker': 'ticker 30s linear infinite',
+          'float-slow': 'floatY 6s ease-in-out infinite',
+          'particle': 'particle 15s linear infinite',
+          'glow-pulse': 'glowPulse 4s ease-in-out infinite',
+          'shimmer': 'shimmer 2.5s ease-in-out infinite',
+        },
+        keyframes: {
+          flowX: {
+            '0%': { transform: 'translateX(-100%)' },
+            '100%': { transform: 'translateX(100%)' },
+          },
+          ticker: {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-50%)' },
+          },
+          floatY: {
+            '0%,100%': { transform: 'translateY(0)' },
+            '50%': { transform: 'translateY(-10px)' },
+          },
+          particle: {
+            '0%': { transform: 'translate(0,0)', opacity: '0' },
+            '10%': { opacity: '1' },
+            '90%': { opacity: '1' },
+            '100%': { transform: 'translate(var(--tx), var(--ty))', opacity: '0' },
+          },
+          glowPulse: {
+            '0%,100%': { opacity: '0.6' },
+            '50%': { opacity: '1' },
+          },
+          shimmer: {
+            '0%': { backgroundPosition: '-200% 0' },
+            '100%': { backgroundPosition: '200% 0' },
+          },
+        },
+      },
+    },
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link href="https://fonts.googleapis.cn/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== 基础背景层 ===== */
+  .hero-bg {
+    background:
+      radial-gradient(1000px 500px at 85% -10%, rgba(37,99,235,0.22), transparent 60%),
+      radial-gradient(800px 500px at 5% 90%, rgba(6,182,212,0.12), transparent 60%),
+      linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  }
+
+  /* ===== 玻璃拟态系统 ===== */
+  .glass {
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(148,163,184,0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .glass-strong {
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(148,163,184,0.18);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .glass-light {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(148,163,184,0.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* ===== 渐变文字 ===== */
+  .grad-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .grad-text-blue {
+    background: linear-gradient(135deg, #93c5fd 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ===== 数据管道 ===== */
+  .pipe {
+    position: relative; overflow: hidden; height: 2px;
+    background: linear-gradient(90deg, rgba(56,189,248,0.15), rgba(56,189,248,0.5), rgba(56,189,248,0.15));
+  }
+  .pipe::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, #67e8f9 6px, transparent 8px);
+    width: 100%;
+    animation: pipeMove 3s linear infinite;
+  }
+  @keyframes pipeMove {
+    from { transform: translateX(-12%); }
+    to   { transform: translateX(112%); }
+  }
+
+  /* ===== 发光边框 ===== */
+  .glow-border-blue { box-shadow: 0 0 0 1px rgba(96,165,250,0.4), 0 0 30px -5px rgba(59,130,246,0.5); }
+  .glow-border-cyan { box-shadow: 0 0 0 1px rgba(34,211,238,0.4), 0 0 30px -5px rgba(6,182,212,0.5); }
+
+  /* ===== 卡片悬停：上移 + 发光 + 内阴影 ===== */
+  .card-hover {
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .35s;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(96,165,250,0.5);
+    box-shadow: 0 20px 40px -15px rgba(37,99,235,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  /* ===== 滚动进入动画 ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== 数字 ===== */
+  .stat-num { font-variant-numeric: tabular-nums; }
+
+  /* ===== 导航滚动收缩 ===== */
+  #nav.scrolled {
+    background: rgba(11,18,32,0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(148,163,184,0.12);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  #nav { transition: all .35s cubic-bezier(.2,.8,.2,1); }
+
+  /* ===== 定价卡片推荐 ===== */
+  .plan-featured {
+    background: linear-gradient(180deg, rgba(37,99,235,0.18), rgba(37,99,235,0.03));
+    border: 1px solid rgba(96,165,250,0.5);
+    box-shadow: 0 30px 80px -20px rgba(37,99,235,0.5), inset 0 1px 0 rgba(147,197,253,0.15);
+  }
+
+  /* ===== FAQ 平滑展开 ===== */
+  .faq-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .faq-item.open .faq-content { grid-template-rows: 1fr; }
+  .faq-content-inner { overflow: hidden; min-height: 0; }
+  .faq-icon { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .faq-item.open .faq-icon { transform: rotate(180deg); }
+
+  /* ===== 连接器分类色 ===== */
+  .conn-db { --c: #60a5fa; --c-bg: rgba(59,130,246,0.12); }
+  .conn-nation { --c: #22d3ee; --c-bg: rgba(6,182,212,0.12); }
+  .conn-doc { --c: #34d399; --c-bg: rgba(16,185,129,0.12); }
+  .conn-msg { --c: #fbbf24; --c-bg: rgba(245,158,11,0.12); }
+  .conn-store { --c: #a78bfa; --c-bg: rgba(139,92,246,0.12); }
+  .conn-saas { --c: #fb7185; --c-bg: rgba(244,63,94,0.12); }
+  .conn-erp { --c: #e879f9; --c-bg: rgba(217,70,239,0.12); }
+
+  .connector-card {
+    color: var(--c);
+    background: var(--c-bg);
+    border: 1px solid color-mix(in srgb, var(--c) 25%, transparent);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s, background .3s;
+  }
+  .connector-card:hover {
+    transform: scale(1.06);
+    border-color: color-mix(in srgb, var(--c) 60%, transparent);
+    background: color-mix(in srgb, var(--c) 18%, transparent);
+    box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--c) 40%, transparent);
+  }
+  .connector-card .conn-icon { transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .connector-card:hover .conn-icon { transform: scale(1.15); }
+
+  /* ===== 数据粒子 ===== */
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 9999px;
+    background: #60a5fa;
+    box-shadow: 0 0 6px #60a5fa, 0 0 12px rgba(96,165,250,0.5);
+    animation: particle 15s linear infinite;
+    opacity: 0;
+  }
+
+  /* ===== 回到顶部 ===== */
+  .back-top {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: all .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .back-top.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* ===== 杂项 ===== */
+  .mask-fade-x {
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .zebra tbody tr:nth-child(even) { background: rgba(148,163,184,0.04); }
+  .code-key { color: #f0abfc; }
+  .code-string { color: #86efac; }
+  .code-comment { color: #64748b; font-style: italic; }
+  .code-num { color: #fcd34d; }
+
+  /* 节点发亮 */
+  .node-dot {
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.15), 0 0 12px rgba(56,189,248,0.6);
+  }
+
+  /* 微光扫过 */
+  .shimmer-text {
+    background: linear-gradient(90deg, #94a3b8 0%, #e2e8f0 50%, #94a3b8 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* 滚动指示 */
+  .scroll-cue { animation: bounceY 2.4s ease-in-out infinite; }
+  @keyframes bounceY {
+    0%,100% { transform: translateY(0); opacity: .7; }
+    50% { transform: translateY(8px); opacity: 1; }
+  }
+
+  /* 价格数字淡入 */
+  .price-fade {
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .price-fade.switching {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  /* Tab 下划线 */
+  .tab-btn { position: relative; transition: color .25s; }
+  .tab-btn.active { color: #e2e8f0; }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    left: 12px; right: 12px; bottom: 2px;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+    border-radius: 2px;
+  }
+
+  /* 响应式隐藏滚动条 */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+
+<body class="bg-ink-900 text-slate-200 font-sans antialiased">
+
+<!-- 顶部导航 -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between transition-all duration-300">
+    <a href="#top" class="flex items-center gap-2.5 group">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 grid place-items-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-shadow">
+        <svg viewBox="0 0 32 32" class="w-5 h-5" fill="none">
+          <path d="M9 16h14M19 11l5 5-5 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8" cy="16" r="2" fill="#fde68a"/>
+          <circle cx="24" cy="16" r="2" fill="#86efac"/>
+        </svg>
+      </div>
+      <div>
+        <div class="text-white font-semibold tracking-tight leading-none">集成中台</div>
+        <div class="text-[10px] text-slate-400 tracking-wider uppercase">IntegrationPlatform</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-8 text-sm text-slate-300">
+      <a href="#features" class="hover:text-white transition-colors">核心能力</a>
+      <a href="#workflow" class="hover:text-white transition-colors">工作流</a>
+      <a href="#connectors" class="hover:text-white transition-colors">连接器</a>
+      <a href="#pricing" class="hover:text-white transition-colors">定价</a>
+      <a href="#scenarios" class="hover:text-white transition-colors">应用场景</a>
+      <a href="#faq" class="hover:text-white transition-colors">常见问题</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href="#" class="hidden sm:inline-flex text-sm text-slate-300 hover:text-white px-3 py-2 transition-colors">登录</a>
+      <a href="#cta" class="text-sm bg-white text-ink-900 font-medium px-4 py-2 rounded-md hover:bg-blue-50 transition-colors shadow-lg shadow-white/5">预约演示</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative hero-bg pt-32 pb-24 overflow-hidden">
+  <div class="absolute inset-0 grid-bg pointer-events-none"></div>
+  <!-- 装饰光斑 -->
+  <div class="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-blue-600/20 blur-3xl animate-glow-pulse"></div>
+  <div class="absolute top-40 -right-20 w-[420px] h-[420px] rounded-full bg-cyan-500/15 blur-3xl animate-glow-pulse" style="animation-delay: 2s;"></div>
+
+  <!-- 数据粒子（CSS 实现） -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div class="particle" style="left: 10%; top: 20%; --tx: 80px; --ty: 120px; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 25%; top: 60%; --tx: -60px; --ty: -100px; animation-delay: 2s; background: #22d3ee; box-shadow: 0 0 6px #22d3ee, 0 0 12px rgba(34,211,238,0.5);"></div>
+    <div class="particle" style="left: 60%; top: 30%; --tx: 100px; --ty: 80px; animation-delay: 4s; background: #a78bfa; box-shadow: 0 0 6px #a78bfa, 0 0 12px rgba(167,139,250,0.5);"></div>
+    <div class="particle" style="left: 80%; top: 70%; --tx: -80px; --ty: -120px; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 45%; top: 15%; --tx: 50px; --ty: 150px; animation-delay: 8s; background: #34d399; box-shadow: 0 0 6px #34d399, 0 0 12px rgba(52,211,153,0.5);"></div>
+    <div class="particle" style="left: 15%; top: 80%; --tx: 120px; --ty: -60px; animation-delay: 10s; background: #22d3ee; box-shadow: 0 0 6px #22d3ee, 0 0 12px rgba(34,211,238,0.5);"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
+    <!-- 文案 -->
+    <div class="lg:col-span-6 reveal">
+      <div class="inline-flex items-center gap-2 text-xs font-medium text-blue-300 bg-blue-500/10 border border-blue-500/25 rounded-full px-3 py-1 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+        v2.4 已发布 · 支持 28+ 企业级连接器
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] mb-6">
+        让数据<br/>
+        <span class="grad-text">在系统间自由流动</span>
+      </h1>
+      <p class="text-lg text-slate-300/90 max-w-xl leading-relaxed mb-8">
+        集成中台统一纳管 <span class="text-white font-medium">28+ 种数据源</span>，
+        提供 <span class="text-white font-medium">可视化字段映射</span>、
+        <span class="text-white font-medium">稳健调度</span> 与 <span class="text-white font-medium">全链路可观测</span>，
+        把跨系统的数据同步、接口集成与流程编排，收敛到一个可运维、可审计的控制台。
+      </p>
+      <div class="flex flex-wrap gap-3 mb-10">
+        <a href="#cta" class="group inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white px-5 py-3 rounded-md font-medium transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-500/40">
+          免费开始
+          <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </a>
+        <a href="#video" class="inline-flex items-center gap-2 text-slate-200 hover:text-white px-5 py-3 rounded-md font-medium border border-slate-700 hover:border-slate-500 hover:bg-slate-800/40 transition-all">
+          <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.3 2.84A1 1 0 005 3.75v12.5a1 1 0 001.3.91l10-5.75a1 1 0 000-1.82l-10-5.75z"/></svg>
+          观看产品演示
+        </a>
+      </div>
+      <!-- 信任带 -->
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-400">
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+          生产可用
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+          ISO 27001 在评
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+          信创全栈适配
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>
+          等保三级
+        </div>
+      </div>
+    </div>
+
+    <!-- 视觉：动态管道示意图 -->
+    <div class="lg:col-span-6 reveal" style="transition-delay: 150ms;">
+      <div class="relative">
+        <!-- 顶部小浮卡：状态 -->
+        <div class="glass-strong rounded-xl px-3.5 py-2.5 absolute -top-4 -left-4 z-20 text-xs hidden md:block animate-float-slow">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-slate-300">实时同步中</span>
+            <span class="font-mono text-cyan-300">28ms</span>
+          </div>
+        </div>
+        <!-- 右上浮卡 -->
+        <div class="glass-strong rounded-xl px-3.5 py-2.5 absolute -top-2 right-2 z-20 text-xs hidden md:block animate-float-slow" style="animation-delay: 1.5s;">
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="font-mono text-blue-300">2,481,602</span>
+            <span class="text-slate-400">行 / 今日</span>
+          </div>
+        </div>
+
+        <div class="relative glass rounded-2xl p-6 lg:p-8 shadow-2xl shadow-blue-500/10 border-slate-700/60">
+          <!-- 顶部条 -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-400/80"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
+            </div>
+            <div class="font-mono text-[11px] text-slate-400">console · /jobs</div>
+            <div class="text-[10px] text-slate-500">cluster-1 ｜ 健康</div>
+          </div>
+
+          <!-- 流水线动画 -->
+          <div class="space-y-4">
+            <!-- 源 -->
+            <div class="grid grid-cols-12 items-center gap-3">
+              <div class="col-span-4">
+                <div class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-slate-800/70 border border-slate-700">
+                  <div class="w-8 h-8 rounded bg-blue-500/15 grid place-items-center">
+                    <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg>
+                  </div>
+                  <div class="leading-tight">
+                    <div class="text-[11px] text-slate-400">源数据源</div>
+                    <div class="text-xs text-white font-medium">MySQL · users</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 relative h-px">
+                <div class="pipe"></div>
+                <div class="absolute top-1/2 -translate-y-1/2 left-1/2 flex items-center gap-1.5 text-[10px] font-mono text-cyan-300 bg-ink-800/80 px-2 py-0.5 rounded-full border border-cyan-500/30">
+                  <svg class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="3"/></svg>
+                  mapping 12 fields
+                </div>
+              </div>
+              <div class="col-span-4">
+                <div class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gradient-to-br from-blue-600/30 to-cyan-500/10 border border-blue-400/40 shadow-inner">
+                  <div class="w-8 h-8 rounded bg-white/10 grid place-items-center">
+                    <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  </div>
+                  <div class="leading-tight">
+                    <div class="text-[11px] text-blue-200">集成中台</div>
+                    <div class="text-xs text-white font-medium">正在编排</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 目标 -->
+            <div class="grid grid-cols-12 items-center gap-3">
+              <div class="col-span-4"></div>
+              <div class="col-span-4 relative h-px">
+                <div class="pipe" style="animation-delay:.6s"></div>
+              </div>
+              <div class="col-span-4">
+                <div class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-slate-800/70 border border-slate-700">
+                  <div class="w-8 h-8 rounded bg-cyan-500/15 grid place-items-center">
+                    <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                  </div>
+                  <div class="leading-tight">
+                    <div class="text-[11px] text-slate-400">目标系统</div>
+                    <div class="text-xs text-white font-medium">Kafka · topic</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 监控小图 -->
+            <div class="mt-6 pt-5 border-t border-slate-700/60">
+              <div class="flex items-center justify-between text-[11px] text-slate-400 mb-2">
+                <span>近 24 小时执行趋势</span>
+                <span class="font-mono text-emerald-400">↑ 99.6% 成功率</span>
+              </div>
+              <svg viewBox="0 0 400 80" class="w-full h-16" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.45"/>
+                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,55 L20,42 L40,48 L60,30 L80,38 L100,22 L120,30 L140,18 L160,28 L180,12 L200,20 L220,8 L240,16 L260,22 L280,15 L300,28 L320,18 L340,10 L360,20 L380,8 L400,14 L400,80 L0,80 Z" fill="url(#g1)"/>
+                <path d="M0,55 L20,42 L40,48 L60,30 L80,38 L100,22 L120,30 L140,18 L160,28 L180,12 L200,20 L220,8 L240,16 L260,22 L280,15 L300,28 L320,18 L340,10 L360,20 L380,8 L400,14" stroke="#60a5fa" stroke-width="1.5" fill="none"/>
+              </svg>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
-  </body>
+  </div>
+
+  <!-- 滚动提示 -->
+  <div class="relative mt-20 text-center">
+    <div class="inline-flex flex-col items-center gap-2 text-xs text-slate-500 scroll-cue">
+      <span>向下滑动探索</span>
+      <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.7a1 1 0 011.4 0L10 11l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- 客户 logo 滚动 -->
+<section class="bg-ink-900 border-y border-slate-800/60 py-7">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-[11px] tracking-widest uppercase text-slate-500 text-center mb-5">受 200+ 企业信赖，覆盖制造、零售、金融、互联网、政企</div>
+    <div class="mask-fade-x overflow-hidden">
+      <div class="flex gap-12 animate-ticker whitespace-nowrap text-slate-400">
+        <span class="text-2xl font-bold opacity-70">智造工业</span>
+        <span class="text-2xl font-bold opacity-70 tracking-wider">OCEANBASE</span>
+        <span class="text-2xl font-bold opacity-70">海林集团</span>
+        <span class="text-2xl font-bold opacity-70 italic">FinovaBank</span>
+        <span class="text-2xl font-bold opacity-70">飞象数科</span>
+        <span class="text-2xl font-bold opacity-70">金穗云</span>
+        <span class="text-2xl font-bold opacity-70">众合信通</span>
+        <span class="text-2xl font-bold opacity-70">云上数城</span>
+        <span class="text-2xl font-bold opacity-70">数据方舟</span>
+        <span class="text-2xl font-bold opacity-70">明远信息</span>
+        <span class="text-2xl font-bold opacity-70">智造工业</span>
+        <span class="text-2xl font-bold opacity-70 tracking-wider">OCEANBASE</span>
+        <span class="text-2xl font-bold opacity-70">海林集团</span>
+        <span class="text-2xl font-bold opacity-70 italic">FinovaBank</span>
+        <span class="text-2xl font-bold opacity-70">飞象数科</span>
+        <span class="text-2xl font-bold opacity-70">金穗云</span>
+        <span class="text-2xl font-bold opacity-70">众合信通</span>
+        <span class="text-2xl font-bold opacity-70">云上数城</span>
+        <span class="text-2xl font-bold opacity-70">数据方舟</span>
+        <span class="text-2xl font-bold opacity-70">明远信息</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 演示视频 -->
+<section id="video" class="relative py-24 bg-gradient-to-b from-ink-900 via-ink-800 to-ink-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">产品演示</div>
+      <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+        90 秒，看清 <span class="grad-text-blue">一个集成任务</span> 如何跑通
+      </h2>
+      <p class="mt-4 text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        从 <span class="text-slate-200">配置数据源</span>、<span class="text-slate-200">字段映射</span>、<span class="text-slate-200">调度策略</span>，到 <span class="text-slate-200">执行追溯</span> 与 <span class="text-slate-200">死信修复</span>——只需四步。
+      </p>
+    </div>
+
+    <!-- 视频占位 -->
+    <div class="relative max-w-5xl mx-auto reveal">
+      <div class="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-blue-500/10 aspect-video bg-ink-700">
+        <div class="absolute inset-0 grid-bg opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="absolute inset-6 rounded-xl glass-light overflow-hidden">
+            <div class="h-8 bg-slate-800/50 flex items-center px-3 gap-2">
+              <span class="w-2 h-2 rounded-full bg-red-400"></span>
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="ml-3 text-[10px] text-slate-500 font-mono">/demos/integration-quickstart.mp4</span>
+            </div>
+            <div class="grid grid-cols-5 h-[calc(100%-2rem)]">
+              <div class="col-span-1 bg-slate-900/40 p-3 text-[10px] space-y-2">
+                <div class="text-slate-300 flex items-center gap-1.5"><span class="w-1 h-1 bg-blue-400 rounded-full"></span>仪表盘</div>
+                <div class="text-slate-300 flex items-center gap-1.5"><span class="w-1 h-1 bg-cyan-400 rounded-full"></span>集成任务</div>
+                <div class="text-slate-300 flex items-center gap-1.5"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span>数据源</div>
+                <div class="text-slate-300 flex items-center gap-1.5"><span class="w-1 h-1 bg-amber-400 rounded-full"></span>执行记录</div>
+                <div class="text-slate-300 flex items-center gap-1.5"><span class="w-1 h-1 bg-rose-400 rounded-full"></span>死信队列</div>
+              </div>
+              <div class="col-span-4 p-3 space-y-2">
+                <div class="flex items-center justify-between">
+                  <div class="text-slate-200 text-xs font-medium">集成任务 / user_sync_01</div>
+                  <div class="flex gap-1.5">
+                    <span class="text-[10px] text-slate-400 px-2 py-0.5 rounded bg-slate-700/60 font-mono">运行中</span>
+                    <span class="text-[10px] text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10">+ 24 行/分</span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-4 gap-2">
+                  <div class="bg-slate-800/50 rounded p-2">
+                    <div class="text-[9px] text-slate-400">已处理</div>
+                    <div class="text-sm text-white font-mono">2.4M</div>
+                  </div>
+                  <div class="bg-slate-800/50 rounded p-2">
+                    <div class="text-[9px] text-slate-400">失败率</div>
+                    <div class="text-sm text-emerald-400 font-mono">0.04%</div>
+                  </div>
+                  <div class="bg-slate-800/50 rounded p-2">
+                    <div class="text-[9px] text-slate-400">P95 耗时</div>
+                    <div class="text-sm text-cyan-300 font-mono">2.3s</div>
+                  </div>
+                  <div class="bg-slate-800/50 rounded p-2">
+                    <div class="text-[9px] text-slate-400">下次执行</div>
+                    <div class="text-sm text-slate-200 font-mono">13:00</div>
+                  </div>
+                </div>
+                <div class="bg-slate-900/50 rounded p-2 text-[10px] font-mono leading-relaxed text-slate-400">
+                  <span class="text-slate-500">[14:32:18]</span> 抽取 source.users 1024 行 <span class="text-cyan-300">▼</span><br/>
+                  <span class="text-slate-500">[14:32:21]</span> <span class="code-key">mapping</span> 12 fields ok <span class="code-comment">(trim, toDate)</span><br/>
+                  <span class="text-slate-500">[14:32:22]</span> <span class="code-key">write</span> upsert: 1024 ok, 0 failed <span class="text-emerald-400">✓</span><br/>
+                  <span class="text-slate-500">[14:32:22]</span> <span class="code-key">callback</span> POST 200 <span class="text-slate-500">2.1s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 播放按钮 -->
+          <button class="relative play-btn group" aria-label="播放演示视频">
+            <div class="absolute inset-0 rounded-full bg-white/20 scale-150 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500"></div>
+          </button>
+        </div>
+        <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass text-xs text-slate-300 font-mono">▶ 01:32</div>
+        <div class="absolute bottom-4 right-4 px-3 py-1 rounded-full glass text-xs text-slate-300">中英字幕 · 含 SCIM 场景</div>
+      </div>
+
+      <!-- 演示视频下方的 4 个亮点 -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+        <div class="flex items-start gap-3 p-4 rounded-xl glass-light card-hover reveal" style="transition-delay: 100ms;">
+          <div class="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-400 grid place-items-center shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 1v10h10V5H5z"/><path d="M7 7h6v2H7zM7 11h6v2H7z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm text-white font-medium">03:21</div>
+            <div class="text-xs text-slate-400">配置源/目标</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-4 rounded-xl glass-light card-hover reveal" style="transition-delay: 200ms;">
+          <div class="w-9 h-9 rounded-lg bg-cyan-500/15 text-cyan-400 grid place-items-center shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M3 5h14v2H3zM3 9h14v2H3zM3 13h14v2H3z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm text-white font-medium">05:12</div>
+            <div class="text-xs text-slate-400">字段映射</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-4 rounded-xl glass-light card-hover reveal" style="transition-delay: 300ms;">
+          <div class="w-9 h-9 rounded-lg bg-violet-500/15 text-violet-400 grid place-items-center shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd"/></svg>
+          </div>
+          <div>
+            <div class="text-sm text-white font-medium">08:45</div>
+            <div class="text-xs text-slate-400">定时 + 事件调度</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-4 rounded-xl glass-light card-hover reveal" style="transition-delay: 400ms;">
+          <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 grid place-items-center shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.815.252 6.245 6.245 0 003.114 1.347 6.43 6.43 0 001.673.117l1.747-.156a.75.75 0 00.59-.857l-.452-5.025a.75.75 0 00-.906-.604l-1.747.156a4.98 4.98 0 01-1.284-.094 4.745 4.745 0 01-2.36-1.022 7.949 7.949 0 01-3.95-4.075.75.75 0 00-.612-.452l-1.749-.156a.75.75 0 00-.728.892L3.5 9.36v-6.61z" clip-rule="evenodd"/></svg>
+          </div>
+          <div>
+            <div class="text-sm text-white font-medium">11:20</div>
+            <div class="text-xs text-slate-400">执行追溯 & 死信</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心能力 -->
+<section id="features" class="relative py-24 bg-ink-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-3xl mb-16 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">核心能力</div>
+      <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+        高度抽象的 <span class="grad-text">六个能力</span>，
+        <br/>收纳散落在系统之间的脏活累活
+      </h2>
+      <p class="mt-5 text-slate-400 leading-relaxed">
+        我们不替你写代码，我们给你一个 <span class="text-slate-200">统一的中台</span>——让数据搬运、对账、转换、监控、审计、回滚这件事，从"散落到每个项目里的 ETL 脚本"，变成一份可被多人协作、可被审计、可被恢复的资产。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- 1. 多源汇流 -->
+      <div class="group relative rounded-2xl p-7 bg-gradient-to-br from-slate-800/50 to-slate-900/40 border border-slate-700/60 card-hover overflow-hidden reveal" style="transition-delay: 0ms;">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors"></div>
+        <div class="relative">
+          <div class="w-11 h-11 rounded-xl bg-blue-500/15 text-blue-400 grid place-items-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h6v6H4zM14 12h6v6h-6zM10 9h4M12 9v3"/><circle cx="7" cy="9" r="1.5"/><circle cx="17" cy="15" r="1.5"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">多源汇流</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">纳管关系库、NoSQL、对象存储、消息队列、企业 SaaS、身份目录共 <span class="text-slate-200 font-medium">28+ 主流连接器</span>，接入一次反复使用。</p>
+          <div class="flex flex-wrap gap-1.5 mt-5">
+            <span class="text-[10px] text-slate-300 bg-slate-700/50 px-2 py-0.5 rounded">MySQL</span>
+            <span class="text-[10px] text-slate-300 bg-slate-700/50 px-2 py-0.5 rounded">PostgreSQL</span>
+            <span class="text-[10px] text-slate-300 bg-slate-700/50 px-2 py-0.5 rounded">Oracle</span>
+            <span class="text-[10px] text-slate-300 bg-slate-700/50 px-2 py-0.5 rounded">达梦</span>
+            <span class="text-[10px] text-slate-300 bg-slate-700/50 px-2 py-0.5 rounded">MongoDB</span>
+            <span class="text-[10px] text-slate-300 bg-slate-700/50 px-2 py-0.5 rounded">Kafka</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 可视化编排 -->
+      <div class="group relative rounded-2xl p-7 bg-gradient-to-br from-slate-800/50 to-slate-900/40 border border-slate-700/60 card-hover overflow-hidden reveal" style="transition-delay: 100ms;">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-colors"></div>
+        <div class="relative">
+          <div class="w-11 h-11 rounded-xl bg-cyan-500/15 text-cyan-400 grid place-items-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h12"/><circle cx="7" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="11" cy="17" r="2"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">可视化编排</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">拖拽式任务配置、<span class="text-slate-200 font-medium">可视化字段映射</span>，支持转换函数、模板复用、字段预览，10 分钟上线一个 ETL。</p>
+          <div class="mt-5 rounded-lg bg-ink-700/60 border border-slate-700/40 p-2 text-[10px] font-mono">
+            <div class="grid grid-cols-3 gap-1 text-slate-300 px-1 font-medium">
+              <div>源字段</div><div>转换</div><div>目标字段</div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-slate-400 px-1 mt-1">
+              <div>username</div><div><span class="text-cyan-300">trim</span></div><div>user_name</div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-slate-400 px-1 mt-0.5">
+              <div>created_at</div><div><span class="text-cyan-300">toDate</span></div><div>create_time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 稳健调度 -->
+      <div class="group relative rounded-2xl p-7 bg-gradient-to-br from-slate-800/50 to-slate-900/40 border border-slate-700/60 card-hover overflow-hidden reveal" style="transition-delay: 200ms;">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-violet-500/10 rounded-full blur-2xl group-hover:bg-violet-500/20 transition-colors"></div>
+        <div class="relative">
+          <div class="w-11 h-11 rounded-xl bg-violet-500/15 text-violet-400 grid place-items-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">稳健调度</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Cron、事件、Webhook、手动四种触发器；<span class="text-slate-200 font-medium">水位化增量</span>与 DAG 多步编排，保障大流量与依赖场景。</p>
+          <div class="grid grid-cols-4 gap-1 mt-5 text-center text-[10px]">
+            <div class="rounded bg-slate-700/50 py-1.5 text-slate-300">⏱ Cron</div>
+            <div class="rounded bg-slate-700/50 py-1.5 text-slate-300">⚡ 事件</div>
+            <div class="rounded bg-slate-700/50 py-1.5 text-slate-300">🔗 Webhook</div>
+            <div class="rounded bg-slate-700/50 py-1.5 text-slate-300">▶ 手动</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 可观测性 -->
+      <div class="group relative rounded-2xl p-7 bg-gradient-to-br from-slate-800/50 to-slate-900/40 border border-slate-700/60 card-hover overflow-hidden reveal" style="transition-delay: 300ms;">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-colors"></div>
+        <div class="relative">
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-400 grid place-items-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">可观测性</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">执行趋势、耗时分布、失败原因、字段级审计——每一行数据的来龙去脉都能被 <span class="text-slate-200 font-medium">反向追溯</span>。</p>
+          <ul class="mt-5 space-y-1.5 text-xs text-slate-400">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>实时执行面板</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>字段变更审计</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>死信队列人工介入</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 5. 数据安全 -->
+      <div class="group relative rounded-2xl p-7 bg-gradient-to-br from-slate-800/50 to-slate-900/40 border border-slate-700/60 card-hover overflow-hidden reveal" style="transition-delay: 400ms;">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-colors"></div>
+        <div class="relative">
+          <div class="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-400 grid place-items-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">数据安全 & 可回滚</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">敏感字段脱敏（掩码 / 哈希 / 删除）、<span class="text-slate-200 font-medium">写入前自动版本快照</span>，任意一行可被回滚到任意一次正确状态。</p>
+          <div class="mt-5 text-[11px] font-mono">
+            <span class="text-amber-300">mobile:</span> <span class="text-slate-300">138****5678</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 开放集成 -->
+      <div class="group relative rounded-2xl p-7 bg-gradient-to-br from-slate-800/50 to-slate-900/40 border border-slate-700/60 card-hover overflow-hidden reveal" style="transition-delay: 500ms;">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/20 transition-colors"></div>
+        <div class="relative">
+          <div class="w-11 h-11 rounded-xl bg-rose-500/15 text-rose-400 grid place-items-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">开放集成</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">REST API + SCIM v2 + Webhook + SDK + <span class="text-slate-200 font-medium">SSO/组织部门同步</span>，让集成商和被集成方都"进得来、出得去"。</p>
+          <div class="mt-5 text-[11px] font-mono bg-ink-700/60 rounded p-2 border border-slate-700/40 text-slate-300">
+            <span class="code-key">POST</span> /api/v1/jobs <span class="code-string">"trigger"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 连接器 -->
+<section id="connectors" class="py-20 bg-ink-800/60 border-y border-slate-800/60">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-4 reveal">
+        <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">连接器生态</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight leading-[1.15]">
+          28+ 现成连接器，<br/>覆盖<span class="grad-text-blue">国产、关系、NoSQL、SaaS</span>
+        </h2>
+        <p class="mt-4 text-slate-400 leading-relaxed">覆盖信创全栈：从达梦、人大金仓、OceanBase，到钉钉、企微、飞书、SCIM v2，再到用友、金蝶等业务系统。</p>
+        <a href="#cta" class="mt-6 inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors group">
+          查看全部连接器
+          <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </a>
+      </div>
+      <div class="lg:col-span-8 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 reveal" style="transition-delay: 150ms;">
+        <!-- 关系型 -->
+        <div class="connector-card conn-db aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold tracking-wide">MySQL</div>
+          <div class="text-[9px] opacity-70">关系型</div>
+        </div>
+        <div class="connector-card conn-db aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">PG</div>
+          <div class="text-[9px] opacity-70">关系型</div>
+        </div>
+        <div class="connector-card conn-db aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">Oracle</div>
+          <div class="text-[9px] opacity-70">关系型</div>
+        </div>
+        <!-- 国产化 -->
+        <div class="connector-card conn-nation aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">达梦</div>
+          <div class="text-[9px] opacity-70">国产化</div>
+        </div>
+        <div class="connector-card conn-nation aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">金仓</div>
+          <div class="text-[9px] opacity-70">国产化</div>
+        </div>
+        <div class="connector-card conn-nation aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">OB</div>
+          <div class="text-[9px] opacity-70">国产化</div>
+        </div>
+        <!-- 文档/搜索/KV -->
+        <div class="connector-card conn-doc aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">Mongo</div>
+          <div class="text-[9px] opacity-70">文档</div>
+        </div>
+        <div class="connector-card conn-doc aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">ES</div>
+          <div class="text-[9px] opacity-70">搜索</div>
+        </div>
+        <div class="connector-card conn-doc aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">Redis</div>
+          <div class="text-[9px] opacity-70">KV</div>
+        </div>
+        <!-- 消息 -->
+        <div class="connector-card conn-msg aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">Kafka</div>
+          <div class="text-[9px] opacity-70">消息</div>
+        </div>
+        <div class="connector-card conn-msg aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">RMQ</div>
+          <div class="text-[9px] opacity-70">消息</div>
+        </div>
+        <!-- 存储/API -->
+        <div class="connector-card conn-store aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">S3</div>
+          <div class="text-[9px] opacity-70">存储</div>
+        </div>
+        <div class="connector-card conn-store aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">HTTP</div>
+          <div class="text-[9px] opacity-70">API</div>
+        </div>
+        <!-- SaaS 通讯录 -->
+        <div class="connector-card conn-saas aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">钉钉</div>
+          <div class="text-[9px] opacity-70">通讯录</div>
+        </div>
+        <div class="connector-card conn-saas aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">企微</div>
+          <div class="text-[9px] opacity-70">通讯录</div>
+        </div>
+        <div class="connector-card conn-saas aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">飞书</div>
+          <div class="text-[9px] opacity-70">通讯录</div>
+        </div>
+        <!-- 身份 -->
+        <div class="connector-card conn-saas aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">LDAP</div>
+          <div class="text-[9px] opacity-70">身份</div>
+        </div>
+        <div class="connector-card conn-saas aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">SCIM</div>
+          <div class="text-[9px] opacity-70">身份</div>
+        </div>
+        <!-- ERP -->
+        <div class="connector-card conn-erp aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">U8</div>
+          <div class="text-[9px] opacity-70">ERP</div>
+        </div>
+        <div class="connector-card conn-erp aspect-square rounded-xl flex flex-col items-center justify-center gap-1 cursor-default">
+          <div class="conn-icon text-lg font-bold">+9</div>
+          <div class="text-[9px] opacity-70">更多</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 工作流 -->
+<section id="workflow" class="py-24 bg-ink-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">四步上手</div>
+      <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+        从<span class="grad-text">连通</span>到<span class="grad-text-blue">监控</span>，<br class="md:hidden"/>一个标准工作流
+      </h2>
+      <p class="mt-4 text-slate-400 max-w-2xl mx-auto">每个任务都遵循同一条流水线：连接 → 配置 → 调度 → 观测。</p>
+    </div>
+    <!-- 步骤 -->
+    <div class="grid md:grid-cols-4 gap-5 relative">
+      <div class="hidden md:block absolute top-12 left-[12%] right-[12%] h-px border-t border-dashed border-slate-600/60 z-0"></div>
+      <div class="relative text-center reveal" style="transition-delay: 0ms;">
+        <div class="relative z-10 w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-400/40 grid place-items-center mb-4 group hover:border-blue-400/70 transition-colors">
+          <div class="text-3xl font-bold text-white">01</div>
+          <div class="absolute -bottom-1 w-4 h-4 rounded-full bg-blue-400 shadow-lg shadow-blue-500/40 animate-pulse"></div>
+        </div>
+        <h4 class="text-white font-medium mb-1">连接数据源</h4>
+        <p class="text-xs text-slate-400 px-4">选择预置连接器，填入凭证，中台会自动测试连通性。</p>
+      </div>
+      <div class="relative text-center reveal" style="transition-delay: 100ms;">
+        <div class="relative z-10 w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/10 border border-cyan-400/40 grid place-items-center mb-4 group hover:border-cyan-400/70 transition-colors">
+          <div class="text-3xl font-bold text-white">02</div>
+          <div class="absolute -bottom-1 w-4 h-4 rounded-full bg-cyan-400 shadow-lg shadow-cyan-500/40 animate-pulse"></div>
+        </div>
+        <h4 class="text-white font-medium mb-1">配置任务</h4>
+        <p class="text-xs text-slate-400 px-4">拖拽式选择源/目标，自动探测字段，一键套用模板。</p>
+      </div>
+      <div class="relative text-center reveal" style="transition-delay: 200ms;">
+        <div class="relative z-10 w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-violet-500/20 to-pink-500/10 border border-violet-400/40 grid place-items-center mb-4 group hover:border-violet-400/70 transition-colors">
+          <div class="text-3xl font-bold text-white">03</div>
+          <div class="absolute -bottom-1 w-4 h-4 rounded-full bg-violet-400 shadow-lg shadow-violet-500/40 animate-pulse"></div>
+        </div>
+        <h4 class="text-white font-medium mb-1">设置调度</h4>
+        <p class="text-xs text-slate-400 px-4">Cron 定时 / 事件触发 / Webhook 入站，定义告警与重试。</p>
+      </div>
+      <div class="relative text-center reveal" style="transition-delay: 300ms;">
+        <div class="relative z-10 w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-emerald-500/20 to-green-500/10 border border-emerald-400/40 grid place-items-center mb-4 group hover:border-emerald-400/70 transition-colors">
+          <div class="text-3xl font-bold text-white">04</div>
+          <div class="absolute -bottom-1 w-4 h-4 rounded-full bg-emerald-400 shadow-lg shadow-emerald-500/40 animate-pulse"></div>
+        </div>
+        <h4 class="text-white font-medium mb-1">观测与回滚</h4>
+        <p class="text-xs text-slate-400 px-4">实时面板 + 审计 + 死信 + 版本快照，一键回滚任意批次。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 收费模式 -->
+<section id="pricing" class="py-24 bg-gradient-to-b from-ink-900 via-ink-800 to-ink-900 border-y border-slate-800/60">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">定价 & 套餐</div>
+      <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+        从<span class="grad-text">免费试用</span>到<span class="grad-text-blue">企业级专享</span>
+      </h2>
+      <p class="mt-4 text-slate-400 leading-relaxed">按任务量与企业能力分级，<span class="text-slate-200">不强绑年付、支持本地化与信创私有部署</span>，所有套餐均含 7×12 工程师支持。</p>
+    </div>
+
+    <!-- Switch -->
+    <div class="flex justify-center mb-10 reveal" style="transition-delay: 100ms;">
+      <div class="inline-flex glass-light rounded-full p-1 text-sm">
+        <button class="tab-btn active px-5 py-1.5 rounded-full transition" data-bill="year">年付 · 8.5 折</button>
+        <button class="tab-btn px-5 py-1.5 rounded-full text-slate-400 transition" data-bill="month">月付</button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- 免费版 -->
+      <div class="rounded-2xl border border-slate-700/60 bg-slate-800/30 p-6 flex flex-col card-hover reveal" style="transition-delay: 0ms;">
+        <div class="mb-5">
+          <div class="text-sm text-slate-400">体验版</div>
+          <div class="text-2xl font-bold text-white mt-1">免费</div>
+          <div class="text-xs text-slate-500 mt-1">永久 · 单租户</div>
+        </div>
+        <ul class="text-sm text-slate-300 space-y-2.5 mb-6 flex-1">
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>3 个集成任务</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>10 万行/日 调用额度</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>社区版连接器</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>社区论坛支持</li>
+        </ul>
+        <a href="#cta" class="text-center text-sm border border-slate-600 text-slate-200 px-4 py-2.5 rounded-md hover:bg-slate-700/40 transition-colors">下载体验</a>
+      </div>
+
+      <!-- 团队版 -->
+      <div class="rounded-2xl border border-slate-700/60 bg-slate-800/30 p-6 flex flex-col card-hover reveal" style="transition-delay: 100ms;">
+        <div class="mb-5">
+          <div class="text-sm text-slate-400">团队版</div>
+          <div class="price-fade text-2xl font-bold text-white mt-1" data-price data-month="¥2,800/月" data-year="¥28,560/年">¥28,560<span class="text-sm font-normal text-slate-400">/年</span></div>
+          <div class="text-xs text-slate-500 mt-1">按席位，含基础连接器</div>
+        </div>
+        <ul class="text-sm text-slate-300 space-y-2.5 mb-6 flex-1">
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>20 个任务 · 最多 8 席位</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>500 万行/月</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>全部连接器（不含专属定制）</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>工单 8 小时响应 · 5×9</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>审计日志保留 90 天</li>
+        </ul>
+        <a href="#cta" class="text-center text-sm bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-md transition-colors">购买团队版</a>
+      </div>
+
+      <!-- 企业版 推荐 -->
+      <div class="rounded-2xl plan-featured p-6 flex flex-col relative reveal" style="transition-delay: 200ms;">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[11px] font-medium text-white bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/30">最受欢迎</div>
+        <div class="mb-5">
+          <div class="text-sm text-blue-200">企业版</div>
+          <div class="price-fade text-2xl font-bold text-white mt-1" data-price data-month="¥12,800/月" data-year="¥130,560/年">¥130,560<span class="text-sm font-normal text-blue-200">/年</span></div>
+          <div class="text-xs text-slate-400 mt-1">不限席位 · 高可用集群</div>
+        </div>
+        <ul class="text-sm text-slate-200 space-y-2.5 mb-6 flex-1">
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-300 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>不限任务量 · 5000 万行/月</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-300 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>钉钉 / 企微 / 飞书 / SCIM SSO</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-300 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>高可用集群 + 灾备</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-300 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>工单 1 小时响应 · 7×12</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-300 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>审计日志保留 1 年</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-blue-300 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>专属客户成功经理</li>
+        </ul>
+        <a href="#cta" class="text-center text-sm bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium px-4 py-2.5 rounded-md shadow-lg shadow-blue-500/30 hover:opacity-95 transition-opacity">购买企业版</a>
+      </div>
+
+      <!-- 旗舰版 -->
+      <div class="rounded-2xl border border-slate-700/60 bg-slate-800/30 p-6 flex flex-col card-hover reveal" style="transition-delay: 300ms;">
+        <div class="mb-5">
+          <div class="text-sm text-slate-400">旗舰版 · 私有部署</div>
+          <div class="text-2xl font-bold text-white mt-1">联系销售</div>
+          <div class="text-xs text-slate-500 mt-1">信创 + 定制连接器</div>
+        </div>
+        <ul class="text-sm text-slate-300 space-y-2.5 mb-6 flex-1">
+          <li class="flex gap-2"><svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>本地化 / 专有云 / 信创交付</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>无上限任务 & 调用</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>定制连接器开发</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>原厂工程师驻场</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>等保 / 密码合规落地</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>SLA 99.95% · 7×24</li>
+        </ul>
+        <a href="#cta" class="text-center text-sm border border-slate-600 text-slate-200 px-4 py-2.5 rounded-md hover:bg-slate-700/40 transition-colors">联系销售</a>
+      </div>
+    </div>
+
+    <!-- 横向对比 -->
+    <div class="mt-12 max-w-5xl mx-auto glass-light rounded-2xl p-6 overflow-x-auto reveal" style="transition-delay: 400ms;">
+      <table class="w-full text-xs text-slate-300 zebra">
+        <thead>
+          <tr class="text-left text-slate-400 border-b border-slate-700/40">
+            <th class="py-2 pr-4">功能</th>
+            <th class="py-2 px-4 text-center">体验版</th>
+            <th class="py-2 px-4 text-center">团队版</th>
+            <th class="py-2 px-4 text-center text-blue-300">企业版</th>
+            <th class="py-2 px-4 text-center">旗舰版</th>
+          </tr>
+        </thead>
+        <tbody class="text-slate-300">
+          <tr><td class="py-2 pr-4">集成任务数</td><td class="text-center">3</td><td class="text-center">20</td><td class="text-center text-blue-300">不限</td><td class="text-center">不限</td></tr>
+          <tr><td class="py-2 pr-4">月调用额度</td><td class="text-center">10 万行</td><td class="text-center">500 万行</td><td class="text-center text-blue-300">5000 万行</td><td class="text-center">定制</td></tr>
+          <tr><td class="py-2 pr-4">连接器生态</td><td class="text-center">社区版</td><td class="text-center">全部</td><td class="text-center text-blue-300">全部 + 优先</td><td class="text-center">全部 + 定制</td></tr>
+          <tr><td class="py-2 pr-4">SSO（钉钉/企微/SCIM）</td><td class="text-center">—</td><td class="text-center">—</td><td class="text-center text-blue-300">✓</td><td class="text-center">✓</td></tr>
+          <tr><td class="py-2 pr-4">审计日志保留</td><td class="text-center">7 天</td><td class="text-center">90 天</td><td class="text-center text-blue-300">1 年</td><td class="text-center">可定制</td></tr>
+          <tr><td class="py-2 pr-4">SLA</td><td class="text-center">尽力</td><td class="text-center">99.5%</td><td class="text-center text-blue-300">99.9%</td><td class="text-center">99.95%</td></tr>
+          <tr><td class="py-2 pr-4">支持</td><td class="text-center">社区</td><td class="text-center">5×9 工单</td><td class="text-center text-blue-300">7×12 + CSM</td><td class="text-center">7×24 驻场</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 应用场景 -->
+<section id="scenarios" class="py-24 bg-ink-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">应用场景</div>
+      <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+        每个企业都有自己的<span class="grad-text">"系统孤岛"</span>，
+        <br class="hidden md:block"/>集成中台是它们的<span class="grad-text-blue">"水陆码头"</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 0ms;">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/15 text-blue-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">智能制造</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">MES / ERP / WMS / SCADA 数据汇聚，统一标准化后入仓分析。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 100ms;">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/15 text-cyan-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L12 3 4 7v10l8 4 8-4V7z"/><path d="M12 12l8-4M12 12v10M12 12L4 8"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">零售消费</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">线上线下、会员、商品、库存、订单的统一流转与对账。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 200ms;">
+        <div class="w-10 h-10 rounded-xl bg-violet-500/15 text-violet-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">金融保险</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">核心系统外围同步、可观测审计、满足合规与穿透式监管。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 300ms;">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">互联网 / SaaS</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">把第三方系统的脏数据接入业务中台，作为稳态管道服务。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 400ms;">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">政企信创</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">达梦 / 金仓 / OceanBase 信创全栈，本地化、私有化交付。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 500ms;">
+        <div class="w-10 h-10 rounded-xl bg-rose-500/15 text-rose-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">生命科学</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">合规审计 / 字段级变更追踪 / 实验室系统到数据中心同步。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 600ms;">
+        <div class="w-10 h-10 rounded-xl bg-fuchsia-500/15 text-fuchsia-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">教育科研</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">教务/科研/财务系统数据统一，权限到人到部门到角色。</p>
+      </div>
+      <div class="rounded-2xl bg-slate-800/30 border border-slate-700/60 p-6 card-hover reveal" style="transition-delay: 700ms;">
+        <div class="w-10 h-10 rounded-xl bg-teal-500/15 text-teal-400 grid place-items-center mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 11-12.73 0M12 2v10l4 2"/></svg>
+        </div>
+        <h4 class="text-white font-medium mb-2">通信运营商</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">BSS/OSS 准实时同步、海量流水与稳健回放。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 数字 -->
+<section class="py-16 bg-ink-800/60 border-y border-slate-800/60">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div class="reveal" style="transition-delay: 0ms;">
+      <div class="text-3xl md:text-4xl font-bold text-white stat-num">
+        <span data-count="28">0</span><span class="text-blue-400">+</span>
+      </div>
+      <div class="text-xs text-slate-400 mt-1">企业级连接器</div>
+    </div>
+    <div class="reveal" style="transition-delay: 100ms;">
+      <div class="text-3xl md:text-4xl font-bold text-white stat-num">
+        <span data-count="99.95" data-decimals="2">0</span><span class="text-blue-400">%</span>
+      </div>
+      <div class="text-xs text-slate-400 mt-1">旗舰版 SLA</div>
+    </div>
+    <div class="reveal" style="transition-delay: 200ms;">
+      <div class="text-3xl md:text-4xl font-bold text-white stat-num">
+        <span data-count="200">0</span><span class="text-blue-400">+</span>
+      </div>
+      <div class="text-xs text-slate-400 mt-1">付费客户</div>
+    </div>
+    <div class="reveal" style="transition-delay: 300ms;">
+      <div class="text-3xl md:text-4xl font-bold text-white stat-num">
+        <span data-count="10">0</span><span class="text-blue-400">×</span>
+      </div>
+      <div class="text-xs text-slate-400 mt-1">交付效率提升</div>
+    </div>
+  </div>
+</section>
+
+<!-- 客户证言 -->
+<section class="py-24 bg-ink-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">客户的声音</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight leading-[1.1]">
+        他们用集成中台<span class="grad-text-blue">替换了 7 套 ETL 脚本</span>
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <figure class="rounded-2xl p-6 bg-slate-800/30 border border-slate-700/60 card-hover reveal" style="transition-delay: 0ms;">
+        <div class="flex gap-0.5 mb-3">
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+        </div>
+        <blockquote class="text-sm text-slate-200 leading-relaxed">"之前我们要维护 7 套 Kettle 作业，现在全部收敛到中台，每次新增数据源缩短到 1 小时。"</blockquote>
+        <figcaption class="mt-5 flex items-center gap-3 text-xs text-slate-400">
+          <div class="w-9 h-9 rounded-full bg-blue-500/30 grid place-items-center text-blue-300 font-bold">李</div>
+          <div>
+            <div class="text-slate-200 font-medium">李工 / 数据架构师</div>
+            <div>某大型制造集团</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="rounded-2xl p-6 bg-slate-800/30 border border-slate-700/60 card-hover reveal" style="transition-delay: 100ms;">
+        <div class="flex gap-0.5 mb-3">
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+        </div>
+        <blockquote class="text-sm text-slate-200 leading-relaxed">"死信队列 + 版本快照让我们一夜没再担心回滚，钉钉告警进来立刻收到。"</blockquote>
+        <figcaption class="mt-5 flex items-center gap-3 text-xs text-slate-400">
+          <div class="w-9 h-9 rounded-full bg-cyan-500/30 grid place-items-center text-cyan-300 font-bold">陈</div>
+          <div>
+            <div class="text-slate-200 font-medium">陈经理 / 运维负责人</div>
+            <div>某新零售企业</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="rounded-2xl p-6 bg-slate-800/30 border border-slate-700/60 card-hover reveal" style="transition-delay: 200ms;">
+        <div class="flex gap-0.5 mb-3">
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 6.3 6.9.5-5.3 4.5 1.7 6.7L10 14.8 4.1 19l1.7-6.7L.5 7.8l6.9-.5L10 1z"/></svg>
+        </div>
+        <blockquote class="text-sm text-slate-200 leading-relaxed">"审计 + 字段级追踪上线后，等保合规检查不再痛苦。"</blockquote>
+        <figcaption class="mt-5 flex items-center gap-3 text-xs text-slate-400">
+          <div class="w-9 h-9 rounded-full bg-violet-500/30 grid place-items-center text-violet-300 font-bold">王</div>
+          <div>
+            <div class="text-slate-200 font-medium">王博士 / 安全合规</div>
+            <div>某金融机构</div>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-24 bg-ink-800/40">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <div class="inline-block text-xs tracking-widest uppercase text-blue-400 mb-3">常见问题</div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">你可能想问的</h2>
+    </div>
+    <div class="space-y-3 reveal" style="transition-delay: 100ms;">
+      <div class="faq-item group glass-light rounded-xl p-5">
+        <button class="faq-trigger w-full flex items-center justify-between text-left">
+          <span class="text-sm font-medium text-white">需要写代码吗？</span>
+          <svg class="faq-icon w-4 h-4 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.7a1 1 0 011.4 0L10 11l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-content">
+          <div class="faq-content-inner">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">90% 的常见集成场景不需要写代码；中台提供可视化拖拽 + 字段映射 + 模板复用。复杂的转换可通过 SQL 片段或 JS 表达式实现。</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item group glass-light rounded-xl p-5">
+        <button class="faq-trigger w-full flex items-center justify-between text-left">
+          <span class="text-sm font-medium text-white">数据是否经过中台服务器？</span>
+          <svg class="faq-icon w-4 h-4 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.7a1 1 0 011.4 0L10 11l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-content">
+          <div class="faq-content-inner">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">SaaS 版：中台仅做编排调度，源↔目标数据流可走直连通道或经中台短暂驻留；私有部署版完全内网，数据不出企业。</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item group glass-light rounded-xl p-5">
+        <button class="faq-trigger w-full flex items-center justify-between text-left">
+          <span class="text-sm font-medium text-white">和 Kettle / Airbyte / NiFi 比有什么区别？</span>
+          <svg class="faq-icon w-4 h-4 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.7a1 1 0 011.4 0L10 11l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-content">
+          <div class="faq-content-inner">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">集成中台是 <span class="text-slate-200">为运维与数据团队设计的"控制台"</span>——把多系统数据同步、用户/组织同步、API 编排、监控审计、权限 SSO 放进同一个产品；不是单点 ETL。</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item group glass-light rounded-xl p-5">
+        <button class="faq-trigger w-full flex items-center justify-between text-left">
+          <span class="text-sm font-medium text-white">支持信创吗？</span>
+          <svg class="faq-icon w-4 h-4 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.7a1 1 0 011.4 0L10 11l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-content">
+          <div class="faq-content-inner">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">支持。旗舰版已适配达梦、人大金仓、OceanBase、麒麟、统信、华为云、阿里专有云；可输出等保/密码合规交付文档。</p>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item group glass-light rounded-xl p-5">
+        <button class="faq-trigger w-full flex items-center justify-between text-left">
+          <span class="text-sm font-medium text-white">如何收费？如何试用？</span>
+          <svg class="faq-icon w-4 h-4 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.7a1 1 0 011.4 0L10 11l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-content">
+          <div class="faq-content-inner">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">按 <span class="text-slate-200">任务量 + 套餐能力</span> 阶梯收费，体验版永久免费；点击下方"预约演示"即可获得 1 对 1 试用与 14 天企业版评测。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="py-24 relative overflow-hidden bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-600">
+  <div class="absolute inset-0 grid-bg opacity-30"></div>
+  <div class="absolute -top-32 -left-20 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-cyan-400/20 blur-3xl"></div>
+  <div class="relative max-w-4xl mx-auto px-6 text-center text-white reveal">
+    <div class="inline-flex items-center gap-2 text-xs font-medium bg-white/15 rounded-full px-3 py-1 mb-6 border border-white/20">
+      <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+      14 天企业版免费试用 · 无需绑定支付方式
+    </div>
+    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-5 leading-[1.1]">把跨系统数据这件事，<br/>交给一个被设计过的中台。</h2>
+    <p class="text-white/85 max-w-2xl mx-auto leading-relaxed">留下你的联系方式，30 分钟内我们的工程师会和你对接；如果你已经在用，写邮件到 <span class="font-mono text-white underline-offset-4 hover:underline">hello@integration-platform.cn</span>。</p>
+    <form class="mt-9 max-w-xl mx-auto flex flex-col sm:flex-row gap-3" onsubmit="event.preventDefault(); alert('已提交！我们的工程师会尽快联系您。');">
+      <input type="email" required placeholder="your.email@company.com" class="flex-1 px-4 py-3 rounded-md text-ink-900 placeholder-slate-500 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-300" />
+      <button type="submit" class="px-5 py-3 rounded-md bg-ink-900 text-white font-medium hover:bg-ink-700 transition-colors whitespace-nowrap shadow-lg shadow-ink-900/30">预约演示</button>
+    </form>
+    <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-white/75">
+      <span>✓ 不绑年付</span>
+      <span>✓ 1 对 1 工程师对接</span>
+      <span>✓ 试用含企业版全部能力</span>
+      <span>✓ 数据可一键导出</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-ink-900 border-t border-slate-800/60 py-14">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-5 gap-10">
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 grid place-items-center shadow-lg shadow-blue-500/30">
+            <svg viewBox="0 0 32 32" class="w-5 h-5" fill="none">
+              <path d="M9 16h14M19 11l5 5-5 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="8" cy="16" r="2" fill="#fde68a"/>
+              <circle cx="24" cy="16" r="2" fill="#86efac"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-white font-semibold tracking-tight leading-none">集成中台</div>
+            <div class="text-[10px] text-slate-400 tracking-wider uppercase">IntegrationPlatform</div>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-slate-400 max-w-xs leading-relaxed">企业级数据集成中台。让数据在系统间自由流动——统一纳管、稳健调度、全链路可观测。</p>
+        <div class="flex gap-3 mt-5">
+          <a href="#" class="text-xs text-slate-300 hover:text-white bg-slate-800/60 px-3 py-1.5 rounded border border-slate-700/60 transition-colors">进入控制台 →</a>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-wider text-slate-500 mb-4">产品</div>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a href="#features" class="hover:text-white transition-colors">核心能力</a></li>
+          <li><a href="#connectors" class="hover:text-white transition-colors">连接器</a></li>
+          <li><a href="#pricing" class="hover:text-white transition-colors">定价</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">登录</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-wider text-slate-500 mb-4">资源</div>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a href="#" class="hover:text-white transition-colors">文档</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">API 参考</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">白皮书</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">更新日志</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-wider text-slate-500 mb-4">公司</div>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li><a href="#" class="hover:text-white transition-colors">关于我们</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">联系销售</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">合作伙伴</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">安全合规</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-slate-800/60 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <div>© 2025 集成中台 (IntegrationPlatform). 让数据在系统间自由流动。</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-slate-300 transition-colors">服务条款</a>
+        <a href="#" class="hover:text-slate-300 transition-colors">隐私政策</a>
+        <a href="#" class="hover:text-slate-300 transition-colors">SLA</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 回到顶部 -->
+<button id="backTop" class="back-top fixed bottom-6 right-6 z-40 w-10 h-10 rounded-full glass-strong text-slate-300 hover:text-white grid place-items-center shadow-lg" aria-label="回到顶部">
+  <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.7 12.3a1 1 0 01-1.4 0L10 9l-3.3 3.3a1 1 0 01-1.4-1.4l4-4a1 1 0 011.4 0l4 4a1 1 0 010 1.4z" clip-rule="evenodd"/></svg>
+</button>
+
+<script>
+(function () {
+  'use strict';
+
+  // ===== 导航滚动效果 =====
+  const nav = document.getElementById('nav');
+  const backTop = document.getElementById('backTop');
+  function onScroll() {
+    if (window.scrollY > 12) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    if (window.scrollY > window.innerHeight * 0.8) {
+      backTop.classList.add('show');
+    } else {
+      backTop.classList.remove('show');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  backTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ===== 滚动进入动画（替代 AOS）=====
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  // ===== 数字计数动画 =====
+  const counters = document.querySelectorAll('[data-count]');
+  if ('IntersectionObserver' in window && counters.length) {
+    function animateCount(el) {
+      const target = parseFloat(el.dataset.count);
+      const decimals = parseInt(el.dataset.decimals || '0', 10);
+      const duration = 1600;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        // easeOutCubic
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = target * eased;
+        el.textContent = decimals > 0 ? val.toFixed(decimals) : Math.floor(val);
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = decimals > 0 ? target.toFixed(decimals) : target;
+      }
+      requestAnimationFrame(tick);
+    }
+    const counterIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          counterIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { counterIo.observe(el); });
+  }
+
+  // ===== 价格切换 =====
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const priceEls = document.querySelectorAll('[data-price]');
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      tabBtns.forEach(function (b) {
+        b.classList.remove('active');
+        b.classList.add('text-slate-400');
+      });
+      btn.classList.add('active');
+      btn.classList.remove('text-slate-400');
+
+      const bill = btn.dataset.bill;
+      priceEls.forEach(function (el) {
+        const v = bill === 'year' ? el.dataset.year : el.dataset.month;
+        if (!v) return;
+        el.classList.add('switching');
+        setTimeout(function () {
+          if (v === '免费') {
+            el.textContent = '免费';
+          } else {
+            const num = v.split('/')[0];
+            const suffix = '/' + v.split('/')[1];
+            const suffixClass = el.closest('.plan-featured') ? 'text-blue-200' : 'text-slate-400';
+            el.innerHTML = num + '<span class="text-sm font-normal ' + suffixClass + '">' + suffix + '</span>';
+          }
+          el.classList.remove('switching');
+        }, 200);
+      });
+    });
+  });
+
+  // ===== FAQ 平滑展开 =====
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    const trigger = item.querySelector('.faq-trigger');
+    trigger.addEventListener('click', function () {
+      const isOpen = item.classList.contains('open');
+      // 关闭同组其他项（手风琴效果）
+      document.querySelectorAll('.faq-item').forEach(function (other) {
+        if (other !== item) other.classList.remove('open');
+      });
+      item.classList.toggle('open', !isOpen);
+    });
+  });
+
+  // ===== 平滑锚点跳转 =====
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      const id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
+</script>
+
+</body>
 </html>
