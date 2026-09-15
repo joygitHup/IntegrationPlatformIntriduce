@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>博客 | 集成中台 IntegrationPlatform - 数据集成实战与行业洞察</title>
+<meta name="description" content="集成中台官方博客，分享企业级数据集成实战经验、ETL 最佳实践、信创数据迁移方案、可观测性建设、数据管道设计思路与行业落地案例，帮助数据团队少走弯路。" />
+<meta name="keywords" content="数据集成博客,ETL最佳实践,信创数据迁移,数据管道设计,数据中台建设,企业数据集成案例,数据同步方案,数据治理" />
+<meta name="canonical" content="https://integra.shaneninfotech.top/blog/" />
+<meta property="og:title" content="博客 | 集成中台 IntegrationPlatform - 数据集成实战与行业洞察" />
+<meta property="og:description" content="企业级数据集成实战经验、信创迁移方案、ETL 最佳实践与行业落地案例。" />
+<meta property="og:url" content="https://integra.shaneninfotech.top/blog/" />
+<meta property="og:image" content="https://integra.shaneninfotech.top/images/og-image.png" />
+<meta property="og:type" content="blog" />
+<meta property="og:site_name" content="集成中台 IntegrationPlatform" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="博客 | 集成中台 IntegrationPlatform" />
+<meta name="twitter:description" content="数据集成实战经验与行业洞察" />
+<meta name="twitter:image" content="https://integra.shaneninfotech.top/images/og-image.png" />
+<meta name="baid-site-verification" content="placeholder" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'ink-900': '#0b1220',
+        'ink-800': '#0f172a',
+        'ink-700': '#1e293b',
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link href="https://fonts.googleapis.cn/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232563eb'/%3E%3Cpath d='M9 16h14M19 11l5 5-5 5' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<style>
+  body { font-family: 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #0b1220; color: #e2e8f0; }
+  .glass { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(71, 85, 105, 0.4); backdrop-filter: blur(12px); }
+  .card-hover { transition: all .3s cubic-bezier(.4,0,.2,1); }
+  .card-hover:hover { transform: translateY(-4px); border-color: rgba(59,130,246,.5); box-shadow: 0 12px 40px -12px rgba(59,130,246,.3); }
+  .grad-text { background: linear-gradient(135deg,#60a5fa,#22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(59,130,246,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .prose p { margin-bottom: 1em; line-height: 1.8; }
+  .prose h2 { font-size: 1.5rem; font-weight: 700; margin: 2em 0 .8em; color: #f1f5f9; }
+  .prose h3 { font-size: 1.125rem; font-weight: 600; margin: 1.5em 0 .6em; color: #e2e8f0; }
+  .prose ul { list-style: disc; padding-left: 1.5em; margin-bottom: 1em; }
+  .prose li { margin-bottom: .4em; line-height: 1.75; }
+  .prose code { background: rgba(30,41,59,.8); padding: .15em .4em; border-radius: 4px; font-size: .9em; color: #67e8f9; }
+  .prose pre { background: #0f172a; border: 1px solid rgba(71,85,105,.4); border-radius: .5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1em; }
+  .prose pre code { background: transparent; padding: 0; color: #94a3b8; }
+  .prose blockquote { border-left: 3px solid #3b82f6; padding-left: 1em; color: #94a3b8; margin: 1em 0; font-style: italic; }
+  .reveal { opacity: 0; transform: translateY(20px); transition: all .6s cubic-bezier(.4,0,.2,1); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="min-h-screen">
+<header id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-md bg-gradient-to-br from-blue-500 to-cyan-400 grid place-items-center">
+        <svg viewBox="0 0 32 32" class="w-4 h-4" fill="none"><path d="M9 16h14M19 11l5 5-5 5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="text-white font-semibold">集成中台</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm text-slate-300">
+      <a href="/#features" class="hover:text-white transition">核心能力</a>
+      <a href="/#connectors" class="hover:text-white transition">连接器</a>
+      <a href="/#scenarios" class="hover:text-white transition">应用场景</a>
+      <a href="/#pricing" class="hover:text-white transition">定价</a>
+      <a href="/blog/" class="text-blue-400 hover:text-blue-300 transition">博客</a>
+    </nav>
+    <a href="/#cta" class="text-sm text-white px-4 py-2 rounded-md bg-gradient-to-r from-blue-600 to-cyan-500 hover:opacity-90 transition">预约演示</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="relative pt-28 pb-14 overflow-hidden">
+  <div class="absolute inset-0 grid-bg opacity-40"></div>
+  <div class="absolute top-10 -left-20 w-80 h-80 rounded-full bg-blue-600/20 blur-3xl"></div>
+  <div class="relative max-w-6xl mx-auto px-6">
+    <div class="max-w-3xl">
+      <div class="text-sm text-blue-400 mb-3">集成中台 · 官方博客</div>
+      <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-[1.1] mb-4">
+        数据集成的<span class="grad-text">实战手册</span><br/>与行业洞察
+      </h1>
+      <p class="text-slate-400 max-w-2xl leading-relaxed">
+        从 ETL 选型到信创迁移，从数据管道设计到可观测性建设，这里记录了我们服务 200+ 企业客户过程中沉淀的方法论、踩坑笔记和最佳实践。
+      </p>
+    </div>
+    <!-- 分类标签 -->
+    <div class="flex flex-wrap gap-2 mt-8">
+      <a href="#all" class="text-xs px-3 py-1.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">全部文章</a>
+      <a href="#practice" class="text-xs px-3 py-1.5 rounded-full glass text-slate-300 hover:text-white transition">实战技巧</a>
+      <a href="#industry" class="text-xs px-3 py-1.5 rounded-full glass text-slate-300 hover:text-white transition">行业方案</a>
+      <a href="#xinchuang" class="text-xs px-3 py-1.5 rounded-full glass text-slate-300 hover:text-white transition">信创迁移</a>
+      <a href="#observability" class="text-xs px-3 py-1.5 rounded-full glass text-slate-300 hover:text-white transition">可观测性</a>
+      <a href="#security" class="text-xs px-3 py-1.5 rounded-full glass text-slate-300 hover:text-white transition">安全合规</a>
+    </div>
+  </div>
+</section>
+
+<!-- 精选文章 -->
+<section class="py-12">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-xl md:text-2xl font-bold text-white mb-6 reveal">精选文章</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal">
+        <a href="/blog/data-integration-vs-etl.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-blue-600/30 to-cyan-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🔄</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">实战技巧</span>
+              <span class="text-slate-500">2025-09-10</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">数据集成和 ETL 有什么区别？企业选型的 7 个关键判断</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">很多人把数据集成和 ETL 画等号，但在企业级场景下，它们关注的问题完全不同。本文从 7 个维度拆解差异，帮你判断该用什么。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 80ms;">
+        <a href="/blog/xinchuang-data-migration-guide.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-red-600/20 to-orange-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🇨🇳</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded">信创迁移</span>
+              <span class="text-slate-500">2025-09-05</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">信创数据迁移完整指南：从 Oracle/MySQL 到达梦、金仓、OceanBase</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">信创不是"换个数据库"那么简单。字段类型差异、存储过程改造、增量同步、回滚方案……一篇文章讲透国产数据库迁移的完整路径。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 160ms;">
+        <a href="/blog/data-pipeline-design.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-violet-600/20 to-purple-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🛠️</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded">架构设计</span>
+              <span class="text-slate-500">2025-08-28</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">企业级数据管道设计的 6 条铁律：从 100+ 项目中总结出的避坑指南</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">数据管道不是"把 A 搬到 B"那么简单。从幂等性、水位线、死信队列到版本回滚，这 6 条原则能帮你避开 90% 的生产事故。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal">
+        <a href="/blog/kafka-data-sync-practice.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-emerald-600/20 to-teal-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">📨</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">实战技巧</span>
+              <span class="text-slate-500">2025-08-20</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">MySQL 到 Kafka 实时同步实战：CDC vs 批处理对比与选型</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">业务库数据要进 Kafka，选 Binlog CDC 还是定时批量抽取？本文从延迟、数据一致性、对源库压力、运维复杂度四个维度做全面对比。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 80ms;">
+        <a href="/blog/data-observability-guide.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-cyan-600/20 to-blue-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">📊</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">可观测性</span>
+              <span class="text-slate-500">2025-08-15</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">数据集成可观测性建设：从"黑盒"到"每一行都能追溯"的三级进阶</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">数据同步出了问题，业务先发现还是你先发现？本文梳理可观测性建设的三个阶段：基础监控 → 链路追踪 → 字段级审计。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 160ms;">
+        <a href="/blog/manufacturing-data-integration.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-amber-600/20 to-yellow-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🏭</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">行业方案</span>
+              <span class="text-slate-500">2025-08-08</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">制造业数据集成方案：MES/ERP/WMS 多系统数据如何汇入统一中台</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">制造企业系统多、数据杂、协议乱。本文以某大型制造集团为例，分享从 7 套 ETL 脚本收敛到统一集成中台的落地路径。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal">
+        <a href="/blog/scim-user-sync.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-pink-600/20 to-rose-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">👥</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-pink-400 bg-pink-500/10 px-2 py-0.5 rounded">身份集成</span>
+              <span class="text-slate-500">2025-08-01</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">SCIM v2 是什么？一份给数据团队的企业身份同步入门指南</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">钉钉、企微、飞书、AD、LDAP……企业组织架构同步总在重复造轮子？SCIM v2 就是为此而生的标准协议，一文讲清它能解决什么问题。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 80ms;">
+        <a href="/blog/data-security-compliance.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-green-600/20 to-emerald-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🔒</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">安全合规</span>
+              <span class="text-slate-500">2025-07-25</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">数据集成中的数据安全：脱敏、加密、审计与等保合规落地要点</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">数据在系统间流动，安全边界在哪里？本文从字段脱敏、传输加密、访问审计、版本回滚四个层面，拆解等保三级合规的必备能力。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 160ms;">
+        <a href="/blog/etl-tool-comparison.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-indigo-600/20 to-violet-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">⚖️</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded">产品对比</span>
+              <span class="text-slate-500">2025-07-18</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">Kettle vs Airbyte vs NiFi vs 集成中台：2025 年数据集成工具选型全对比</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">开源工具一大堆，到底选哪个？我们从企业运维视角，把四款主流工具放在连接器生态、调度能力、可观测性、易用性、企业能力五个维度打分。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal">
+        <a href="/blog/retail-data-integration.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-fuchsia-600/20 to-pink-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🛍️</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-fuchsia-400 bg-fuchsia-500/10 px-2 py-0.5 rounded">行业方案</span>
+              <span class="text-slate-500">2025-07-10</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">新零售全渠道数据集成方案：线上线下会员、库存、订单如何统一</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">线下门店 + 天猫京东抖音 + 私域小程序，订单和会员数据散落在十几个系统里。看某零售品牌如何用集成中台把它们拧成一股绳。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 80ms;">
+        <a href="/blog/data-warehouse-vs-integration.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-sky-600/20 to-blue-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🏗️</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded">架构设计</span>
+              <span class="text-slate-500">2025-07-03</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">数据中台 vs 数据仓库 vs 数据集成中台：别再傻傻分不清</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">三个"中台/仓库"经常被混为一谈，但它们解决的问题完全不在一个层面。一张图讲清三者的定位差异和在企业数据架构中的协作关系。</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="glass rounded-xl overflow-hidden card-hover reveal" style="transition-delay: 160ms;">
+        <a href="/blog/financial-data-audit.html" class="block">
+          <div class="h-40 bg-gradient-to-br from-teal-600/20 to-cyan-500/20 flex items-center justify-center">
+            <span class="text-5xl opacity-60">🏦</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs mb-2">
+              <span class="text-teal-400 bg-teal-500/10 px-2 py-0.5 rounded">行业方案</span>
+              <span class="text-slate-500">2025-06-28</span>
+            </div>
+            <h3 class="text-white font-semibold mb-2 leading-snug">金融行业数据集成审计实践：字段级追踪如何支撑穿透式监管</h3>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">金融监管要求数据可追溯、可审计、可解释。某城商行是如何用字段级审计 + 版本快照，把监管检查的准备时间从 2 周压缩到 2 小时的？</p>
+          </div>
+        </a>
+      </article>
+
+    </div>
+
+    <!-- 分页 -->
+    <div class="flex justify-center gap-2 mt-12">
+      <button disabled class="w-9 h-9 rounded-md glass text-slate-500 text-sm cursor-not-allowed">←</button>
+      <button class="w-9 h-9 rounded-md bg-blue-500/30 text-white text-sm font-medium border border-blue-400/50">1</button>
+      <button class="w-9 h-9 rounded-md glass text-slate-300 text-sm hover:text-white transition">2</button>
+      <button class="w-9 h-9 rounded-md glass text-slate-300 text-sm hover:text-white transition">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- 订阅 -->
+<section class="py-16">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="glass rounded-2xl p-8 md:p-10 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">订阅数据集成周刊</h2>
+      <p class="text-slate-400 mb-6">每周一封，精选行业干货 + 最佳实践，帮你用碎片时间涨专业知识。</p>
+      <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('订阅成功！');">
+        <input type="email" required placeholder="你的邮箱" class="flex-1 px-4 py-2.5 rounded-md bg-ink-800 border border-slate-600 text-white placeholder-slate-500 focus:outline-none focus:border-blue-400" />
+        <button type="submit" class="px-5 py-2.5 rounded-md bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium hover:opacity-90 transition">订阅</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-slate-800/60 py-10">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+    <div class="flex items-center gap-2">
+      <div class="w-6 h-6 rounded bg-gradient-to-br from-blue-500 to-cyan-400"></div>
+      <span>© 2025 集成中台 IntegrationPlatform</span>
+    </div>
+    <div class="flex gap-4">
+      <a href="/" class="hover:text-slate-300 transition">首页</a>
+      <a href="/#features" class="hover:text-slate-300 transition">核心能力</a>
+      <a href="/#pricing" class="hover:text-slate-300 transition">定价</a>
+      <a href="/blog/" class="text-blue-400 hover:text-blue-300 transition">博客</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 滚动进入动画
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  // 导航滚动效果
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 12) {
+      nav.classList.add('glass');
+    } else {
+      nav.classList.remove('glass');
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>

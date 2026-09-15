@@ -18,4 +18,4 @@ User-agent: Yisouspider
 Allow: /
 
 # Sitemap 位置
-Sitemap: https://integration-platform.cn/sitemap.xml
+Sitemap: https://integra.shaneninfotech.top/sitemap.xml
